@@ -46,7 +46,7 @@ if st.button("道場で判定する"):
             try:
                 # 無料枠が完全に使える1.5-flashモデルとSystem Instructionを設定
                 model = genai.GenerativeModel(
-                    model_name='gemini-1.5-flash',
+                    model_name='gemini-1.5-flash-8b',
                     system_instruction=BASE_PROMPT
                 )
                 
