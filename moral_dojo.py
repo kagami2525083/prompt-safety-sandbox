@@ -1,21 +1,22 @@
 import os
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 
-# StreamlitのSecrets（設定）または環境変数からAPIキーを取得
+# Secretsまたは環境変数からAPIキーを取得
 api_key = st.secrets.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEY")
 
 if not api_key:
     st.error("APIキーが設定されていません。StreamlitのSecretsに 'GEMINI_API_KEY' を設定してください。")
     st.stop()
 
-genai.configure(api_key=api_key)
+# 最新のGenAIクライアント初期化
+client = genai.Client(api_key=api_key)
 
 # タイトル
 st.title("Prompt Safety Sandbox")
 st.caption("〜ポジ・ネガ・温度計先生による泥臭いAIプロンプト判定道場〜")
 
-# システムプロンプト（3人の基本設定）
+# システムプロンプト
 BASE_PROMPT = """
 あなたはAIモラルのアドバイザーです。
 ユーザーから入力されたプロンプトに対して、以下の3つの役割（視点）で評価・回答を行ってください。
@@ -43,11 +44,12 @@ if st.button("道場で判定する"):
     else:
         with st.spinner("3人が判定中..."):
             try:
-                # Gemini 1.5 Flashモデルで呼び出し
-                model = genai.GenerativeModel("gemini-1.5-flash")
+                # 最新の gemini-2.5-flash モデルで生成
                 full_input = f"{BASE_PROMPT}\n\n【評価対象のプロンプト】\n{user_prompt}"
-                
-                response = model.generate_content(full_input)
+                response = client.models.generate_content(
+                    model='gemini-2.5-flash',
+                    contents=full_input,
+                )
                 
                 # 判定結果の表示
                 st.markdown("### 🥋 判定結果")
