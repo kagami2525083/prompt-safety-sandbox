@@ -44,7 +44,7 @@ if st.button("道場で判定する"):
         with st.spinner("3人が判定中..."):
             try:
                 # Gemini 1.5 Flashモデルで呼び出し
-                model = genai.GenerativeModel("gemini-1.5-flash-002")
+                model = genai.GenerativeModel("gemini-1.5-flash")
                 full_input = f"{BASE_PROMPT}\n\n【評価対象のプロンプト】\n{user_prompt}"
                 
                 response = model.generate_content(full_input)
