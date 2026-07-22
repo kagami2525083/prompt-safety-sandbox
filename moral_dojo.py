@@ -47,7 +47,7 @@ if st.button("道場で判定する"):
                 # 最新の gemini-1.5-flash モデルで生成
                 full_input = f"{BASE_PROMPT}\n\n【評価対象のプロンプト】\n{user_prompt}"
                 response = client.models.generate_content(
-                    model='gemini-1.5-flash-latest',
+                    model='gemini-1.5-flash',
                     contents=full_input,
                 )
                 
